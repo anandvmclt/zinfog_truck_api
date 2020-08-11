@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import AboutUs
 from django.contrib import messages
+from django.forms import Textarea
+from django.db import models
 
 # Updating the Administration Texts
 admin.site.site_header = "Zinfog Admin"
@@ -14,8 +16,9 @@ class AboutusAdmin(admin.ModelAdmin):
     actions = ['reject_orders', 'confirm_orders']
 
     def reject_orders(self, request, queryset):
-            queryset.update(ord_status=AboutUs.REJECTED)
+            count =  queryset.update(ord_status=AboutUs.REJECTED)
             messages.info(request, 'Your Order has been Rejected!')
+            print("Order data:",  queryset)
     reject_orders.short_description = "Reject selected orders"
 
     def confirm_orders(self, request, queryset):
@@ -25,7 +28,7 @@ class AboutusAdmin(admin.ModelAdmin):
 
     # def has_add_permission(self, request):
     #     return False
-    #
+
     # def has_change_permission(self, request, obj=None):
     #     return False
     @classmethod
@@ -39,5 +42,10 @@ class AboutusAdmin(admin.ModelAdmin):
         extra_context['show_save_and_continue'] = False
         extra_context['show_save'] = True
         return super(AboutusAdmin, self).change_view(request, object_id, extra_context=extra_context)
+
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 4, 'cols': 36})},
+    }
+
 
 admin.site.register(AboutUs, AboutusAdmin)

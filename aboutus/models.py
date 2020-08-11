@@ -18,6 +18,7 @@ class AboutUs(models.Model):
     phoneNo = models.CharField(max_length=25, blank=True)
     truckType = models.CharField(max_length=100, blank=True)
     dateTime = models.DateTimeField(auto_now_add=True)
+    comments = models.TextField(null=True, blank=True)
     ord_status = models.CharField(max_length = 50, choices=ORDER_STATUSES, default=PENDING)
     
 
