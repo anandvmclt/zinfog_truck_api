@@ -33,3 +33,6 @@ class AboutAPIView(APIView):
 
 def index(request):
     return HttpResponse("Welcome to Zinfog API testing")
+
+def home(request):
+    return render(request, "home.html")
